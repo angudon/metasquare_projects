@@ -1,4 +1,4 @@
-import os, time, csv
+import os.path, time, csv
 from zipfile import ZipFile
 zip_file_name = "samples.zip"
 filename,file_extension = os.path.splitext(zip_file_name)
