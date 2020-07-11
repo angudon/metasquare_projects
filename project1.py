@@ -9,7 +9,11 @@ with ZipFile(zip_file_name, 'r') as zip:
     zip.extractall() 
     print('Done!')
     files = os.listdir(filename)
-    for i in files:
+    with open('project1.csv',mode='w') as csv_file:
+        fieldnames = ['Name','Full-Path','Last-Modified','Data-Created','File-Extension']
+        writer = csv.DictWriter(csv_file,fieldnames)
+        writer.writeheader()
+        for i in files:
             file_name = os.path.basename(i)
             full_path = os.path.abspath(file_name)
             dir_path = os.path.dirname(os.path.abspath(file_name))
@@ -18,5 +22,6 @@ with ZipFile(zip_file_name, 'r') as zip:
             create_time = os.path.getctime(dir_path+"/"+filename+"/"+file_name)
             create_time1 = time.strftime('%Y/%m/%d %H:%M:%S', time.localtime(create_time))
             name,extension = os.path.splitext(file_name)
-            print('Name':file_name, 'Full-Path':full_path, 'Last-Modified':mod_time1, 'Data-Created':create_time1, 'File-Extension':no_gap_extension)
+            writer.writerow({'Name':file_name, 'Full-Path':full_path, 'Last-Modified':mod_time1, 'Data-Created':create_time1, 'File-Extension':extension}) 
+        csv_file.close()
 
