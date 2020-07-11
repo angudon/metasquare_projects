@@ -1,4 +1,4 @@
-import os, time
+import os, time, csv
 from zipfile import ZipFile
 zip_file_name = "samples.zip"
 filename,file_extension = os.path.splitext(zip_file_name)
@@ -22,6 +22,8 @@ with ZipFile(zip_file_name, 'r') as zip:
             create_time = os.path.getctime(dir_path+"/"+filename+"/"+file_name)
             create_time1 = time.strftime('%Y/%m/%d %H:%M:%S', time.localtime(create_time))
             name,extension = os.path.splitext(file_name)
-            writer.writerow({'Name':file_name, 'Full-Path':full_path, 'Last-Modified':mod_time1, 'Data-Created':create_time1, 'File-Extension':extension}) 
+            if extension not in "  ":
+                no_gap_extension = extension
+            writer.writerow({'Name':file_name, 'Full-Path':full_path, 'Last-Modified':mod_time1, 'Data-Created':create_time1, 'File-Extension':no_gap_extension}) 
         csv_file.close()
 
