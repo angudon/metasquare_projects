@@ -1,11 +1,6 @@
 from flask import Flask, request, url_for
 from flask_pymongo import PyMongo
 
-file_name = 'SalesJan2009.csv'
-num_rows=0
-for rows in open(file_name):
-    num_rows+=1
-
 app = Flask(__name__);
 app.config['MONGO_URL'] = '<mongo_db_url>'
 mongo = PyMongo(app)
@@ -26,7 +21,8 @@ def create():
         csv_file = request.files['csv_file']
         mongo.save_file(csv_file.filename, csv_file)
         mongo.db.users.insert({'username' : request.form.get('username'), 'csv_file_name' : csv_file.filename})
+ #       num_rows = mongo.db.csv_file.find().count()
+ #   return 'Uploading completed.\nA total of '+num_rows+' records were inserted into MongoDB.'
+    return 'Uploading completed.' 
 
-    return 'Uploading completed.\nA total of '+num_rows+' records were inserted into MongoDB.'
-    
 
